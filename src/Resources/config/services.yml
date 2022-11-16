@@ -1,3 +1,5 @@
+
+
 services:
     # Parameter Bag
     sylius.parameter_bag:
@@ -11,7 +13,7 @@ services:
         class: FriendsOfSylius\SyliusImportExportPlugin\Controller\ImportDataController
         arguments:
             - "@sylius.importers_registry"
-            - "@session.flash_bag"
+            - "@request_stack"
             - "@form.factory"
             - "@twig"
         tags: ['controller.service_arguments']
@@ -371,3 +373,13 @@ services:
             - "@sylius.locale_provider"
             - "@sylius.importer.metadata_validator"
             - ["Code", "Parent", "Locale", "Name", "Slug", "Description"]
+
+    # app.grid_event_listener.admin.crud_sylius.product_csv_export:
+    #     class: FriendsOfSylius\SyliusImportExportPlugin\Listener\ExportButtonGridListener
+    #     arguments:
+    #         - "sylius.product"
+    #         - ["csv"]
+    #     calls:
+    #         - [ setRequest, ["@request_stack"]]
+    #     tags:
+    #         - { name: 'kernel.event_listener', event: sylius.grid.admin_product, method: onSyliusGridAdmin }

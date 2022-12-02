@@ -15,6 +15,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Twig\Environment;
@@ -35,14 +36,14 @@ final class ImportDataController
 
     public function __construct(
         ServiceRegistryInterface $registry,
-        FlashBagInterface $flashBag,
+        RequestStack $request,
         FormFactoryInterface $formFactory,
         Environment $twig
     ) {
         $this->registry = $registry;
         $this->formFactory = $formFactory;
         $this->twig = $twig;
-        $this->flashBag = $flashBag;
+        $this->flashBag = $request->getSession()->getBag('flashes');
     }
 
     public function importFormAction(Request $request): Response
